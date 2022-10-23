@@ -3,8 +3,6 @@ from ast import Str, match_case
 from difflib import Match
 from flask_restful import Resource, abort
 import numpy as np
-from sympy.matrices import Matrix
-from sympy.matrices.dense import matrix2numpy
 from PIL import Image
 from sys import path, version_info
 import base64

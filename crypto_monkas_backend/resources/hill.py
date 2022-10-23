@@ -35,7 +35,8 @@ def hill_key(key: str):
 
 def valid_format(name: str) -> bool:
     name = name.split(".")
-    return name[-1] in ["jpg", "png"]
+    print(name)
+    return name[-1] in ["png"]
 
 
 hill_enc_parser = utils.file_parser()
@@ -62,17 +63,19 @@ class HillEnc(Resource):
     @staticmethod
     def encryption(filename: str, key: np.matrix) -> str:
         image = Image.open(utils.FILEPATH + filename)
-        height, width = image.size
+        width, height = image.size
         kheight, kwidth = key.shape
         dimensions = (width // kwidth * kwidth, height // kheight * kheight)
         image = image.resize(dimensions)
         image = np.array(image)
+        print("enc input", image)
         for channel in range(3):
             for i in range(0, image.shape[0], kheight):
                 for j in range(0, image.shape[1], kwidth):
                     image[i: i + kheight, j: j + kwidth, channel] = np.matmul(
                             image[i: i + kheight, j: j + kwidth, channel], key
                     ) % 256
+        print("enc output", image)
         image = Image.fromarray(image)
         image.save(utils.FILEPATH + "encimg" + filename)
 
@@ -98,16 +101,18 @@ class HillDec(Resource):
         invkey = Matrix(key).inv_mod(256)
         invkey = matrix2numpy(invkey)
         image = Image.open(utils.FILEPATH + filename)
-        height, width = image.size
+        width, height = image.size
         kheight, kwidth = key.shape
         dimensions = (width // kwidth * kwidth, height // kheight * kheight)
         image = image.resize(dimensions)
         image = np.array(image)
+        print("dec input", image)
         for channel in range(3):
             for i in range(0, image.shape[0], kheight):
                 for j in range(0, image.shape[1], kwidth):
-                    image[i: i + kheight,j: j + kwidth, channel] = np.matmul(
+                    image[i: i + kheight, j: j + kwidth, channel] = np.matmul(
                         image[i: i + kheight, j: j + kwidth, channel], invkey
                     ) % 256
         image = Image.fromarray(image)
+        print("dec output", image)
         image.save(utils.FILEPATH + "decimg" + filename)

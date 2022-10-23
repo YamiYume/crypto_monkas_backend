@@ -301,13 +301,13 @@ if __name__ == "__main__":
     perm_test()
     print(
         post(
-            ROOT + "hill/enc/forest.jpg/12 13 11 25 72 23 43 3 11",
-            files={"file": open("test_files/forest.jpg", "rb")},
+            ROOT + "hill/enc/Cat.png/12 13 11 25 72 23 43 3 11",
+            files={"file": open("test_files/Cat.png", "rb")},
         ).json()
     )
     print(
         post(
-            ROOT + "hill/dec/encforest.jpg/12 13 11 25 72 23 43 3 11",
-            files={"file": open("test_files/encforest.jpg", "rb")},
+            ROOT + "hill/dec/encCat.png/12 13 11 25 72 23 43 3 11",
+            files={"file": open("test_files/encCat.png", "rb")},
         ).json()
     )

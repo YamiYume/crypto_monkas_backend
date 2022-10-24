@@ -294,20 +294,20 @@ def perm_test():
 
 
 if __name__ == "__main__":
-    shift_test()
-    afin_test()
-    subs_test()
-    vig_test()
-    perm_test()
+    #shift_test()
+    #afin_test()
+    #subs_test()
+    #vig_test()
+    #perm_test()
 
-	post(
-		ROOT + "hill/enc/Cat.png/12 13 11 25 72 23 43 3 11",
-		files={"file": open("test_files/Cat.png", "rb")},
-	).json()
-	post(
-		ROOT + "hill/dec/encCat.png/12 13 11 25 72 23 43 3 11",
-		files={"file": open("test_files/encCat.png", "rb")},
-	).json()
+    #post(
+	#	ROOT + "hill/enc/Cat.png/12 13 11 25 72 23 43 3 11",
+	#	files={"file": open("test_files/Cat.png", "rb")},
+	#).json()
+    #post(
+	#	ROOT + "hill/dec/encCat.png/12 13 11 25 72 23 43 3 11",
+	#	files={"file": open("test_files/hillencCat.png", "rb")},
+	#).json()
     
     # TDES modes: ECB, CBC, OFB, CBF
     # Format: "[mode], [iv], [key]" where
@@ -315,14 +315,18 @@ if __name__ == "__main__":
     # [key] is made of 16 or 24 bytes (16 or 24 numbers on the range of 0-255)
 
     post(
-        ROOT + "tdes/dec/CBCnotsosmall.png/CBC, f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/CBCnotsosmall.png", "rb")},
+        ROOT + "aes/enc/Cat.png/ECB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+        files={"file": open("test_files/Cat.png", "rb")},
     ).json()
     post(
-        ROOT + "tdes/dec/OFBnotsosmall.png/OFB, f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/OFBnotsosmall.png", "rb")},
+        ROOT + "aes/enc/Cat.png/CBC, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+        files={"file": open("test_files/Cat.png", "rb")},
     ).json()
     post(
-        ROOT + "tdes/dec/CFBnotsosmall.png/CFB, f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/CFBnotsosmall.png", "rb")},
+        ROOT + "aes/enc/Cat.png/OFB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+        files={"file": open("test_files/Cat.png", "rb")},
+    ).json()
+    post(
+        ROOT + "aes/enc/Cat.png/CFB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+        files={"file": open("test_files/Cat.png", "rb")},
     ).json()

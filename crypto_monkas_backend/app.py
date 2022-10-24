@@ -8,6 +8,7 @@ from resources.vigenere import VigEnc, VigDec, VigAtk
 from resources.permutation import PermEnc, PermDec
 from resources.hill import HillEnc, HillDec
 from resources.TDES import TDESEnc, TDESDec
+from resources.aes import AESEnc, AESDec
 from common import utils
 
 if os.path.exists(utils.FILEPATH):
@@ -42,6 +43,8 @@ api.add_resource(HillEnc, "/hill/enc/<filename>/<key>")
 api.add_resource(HillDec, "/hill/dec/<filename>/<key>")
 api.add_resource(TDESEnc, "/tdes/enc/<filename>/<key>")
 api.add_resource(TDESDec, "/tdes/dec/<filename>/<key>")
+api.add_resource(AESEnc, "/aes/enc/<filename>/<key>")
+api.add_resource(AESDec, "/aes/dec/<filename>/<key>")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -66,7 +66,7 @@ class ShiftDec(Resource):
 
 
 class ShiftAtk(Resource):
-    def get(self):
+    def post(self):
         args = shift_atk_parser.parse_args()
         ciphertext = args["ciphertext"]
         head = args["head"]

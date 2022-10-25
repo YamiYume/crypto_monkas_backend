@@ -38,7 +38,7 @@ vig_atk_parser.add_argument(
 
 
 class VigEnc(Resource):
-    def get(self):
+    def post(self):
         args = vig_enc_parser.parse_args()
         plaintext = args["plaintext"]
         key = args["key"]
@@ -54,7 +54,7 @@ class VigEnc(Resource):
 
 
 class VigDec(Resource):
-    def get(self):
+    def post(self):
         args = vig_dec_parser.parse_args()
         ciphertext = args["ciphertext"]
         key = args["key"]

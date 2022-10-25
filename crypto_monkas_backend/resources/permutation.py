@@ -47,9 +47,7 @@ class PermEnc(Resource):
 
     @staticmethod
     def encryption(plaintext: str, key: List[int]) -> str:
-        pt = len(plaintext)
-        ki = len(key)
-        missing = pt % ki
+        missing = len(key) - (len(plaintext) % len(key))
         plaintext += "".join(utils.chr_low(randint(0, 25)) for _ in range(missing))
         ciphertext = ""
         for chunk in grouper(plaintext, len(key), incomplete="strict"):
@@ -60,7 +58,7 @@ class PermEnc(Resource):
 
 
 class PermDec(Resource):
-    def get(self):
+    def post(self):
         args = perm_dec_parser.parse_args()
         ciphertext = args["ciphertext"]
         key = args["key"]

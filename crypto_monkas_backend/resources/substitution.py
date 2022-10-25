@@ -29,7 +29,7 @@ subs_atk_parser.add_argument(
 
 
 class SubsEnc(Resource):
-    def get(self):
+    def post(self):
         args = subs_enc_parser.parse_args()
         plaintext = args["plaintext"]
         key = args["key"]
@@ -46,7 +46,7 @@ class SubsEnc(Resource):
 
 
 class SubsDec(Resource):
-    def get(self):
+    def post(self):
         args = subs_dec_parser.parse_args()
         ciphertext = args["ciphertext"]
         key = args["key"]
@@ -63,7 +63,7 @@ class SubsDec(Resource):
 
 
 class SubsAtk(Resource):
-    def get(self):
+    def post(self):
         args = subs_atk_parser.parse_args()
         ciphertext = args["ciphertext"]
         mono_counts = Counter(ciphertext)

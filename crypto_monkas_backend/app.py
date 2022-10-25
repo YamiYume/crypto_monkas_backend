@@ -1,5 +1,6 @@
 from flask import Flask
 import os
+from flask_cors import CORS
 from flask_restful import Api
 from resources.shift import ShiftEnc, ShiftDec, ShiftAtk
 from resources.afin import AfinAtk, AfinDec, AfinEnc
@@ -21,6 +22,7 @@ else:
     os.makedirs(utils.FILEPATH)
 
 app = Flask(__name__)
+CORS(app)
 app.config["UPLOAD FOLDER"] = utils.FILEPATH
 
 api = Api(app)

@@ -38,7 +38,7 @@ perm_atk_parser.add_argument(
 
 
 class PermEnc(Resource):
-    def get(self):
+    def post(self):
         args = perm_enc_parser.parse_args()
         plaintext = args["plaintext"]
         key = args["key"]
@@ -47,7 +47,9 @@ class PermEnc(Resource):
 
     @staticmethod
     def encryption(plaintext: str, key: List[int]) -> str:
-        missing = len(key) - (len(plaintext) % len(key))
+        pt = len(plaintext)
+        ki = len(key)
+        missing = pt % ki
         plaintext += "".join(utils.chr_low(randint(0, 25)) for _ in range(missing))
         ciphertext = ""
         for chunk in grouper(plaintext, len(key), incomplete="strict"):

@@ -1,8 +1,6 @@
 from string import ascii_lowercase, ascii_uppercase
-from itertools import pairwise
 from collections import Counter
 from flask_restful import reqparse
-import werkzeug
 import os
 
 MONOFREQ = {
@@ -92,8 +90,9 @@ def mono_diff_rank(word: str) -> float:
 
 
 def bi_diff_rank(word: str) -> float:
+    pairs = [word[i] + word[i+1] for i in range(len(word) - 1)]
     w_bi_rfreq = {
-        "".join(c): f / (len(word) - 1) for c, f in Counter(pairwise(word)).items()
+        "".join(c): f / (len(word) - 1) for c, f in Counter(pairs).items()
     }
     mean_error = 0
     for bigraph, e_bi_rfreq in BIFREQ.items():
@@ -155,7 +154,6 @@ def chr_up(x: int) -> str:
     x = x % 26
     return ascii_uppercase[x]
 
-
 def enc_parser(key_type: callable) -> reqparse.RequestParser:
     new_parser = reqparse.RequestParser()
     new_parser.add_argument(
@@ -163,6 +161,13 @@ def enc_parser(key_type: callable) -> reqparse.RequestParser:
     )
     new_parser.add_argument(
         "key", type=key_type, required=True, help="unvalid argument: {error_msg}"
+    )
+    return new_parser
+
+def enc_parser_keyless() -> reqparse.RequestParser:
+    new_parser = reqparse.RequestParser()
+    new_parser.add_argument(
+        "plaintext", type=plaintext, required=True, help="plaintext is required"
     )
     return new_parser
 
@@ -177,14 +182,41 @@ def dec_parser(key_type: callable) -> reqparse.RequestParser:
     )
     return new_parser
 
-
-def file_parser():
+def file_parser(key_type: callable):
     new_parser = reqparse.RequestParser()
     new_parser.add_argument(
         "file",
-        type=werkzeug.datastructures.FileStorage,
-        location="files",
+        type=str,
         required=True,
         help="argument is required",
+    )
+    new_parser.add_argument(
+        "key",
+        type=key_type,
+        required=True,
+        help="argument is required",
+    )
+    return new_parser
+
+def sdes_parser(key_type: callable):
+    new_parser = reqparse.RequestParser()
+    new_parser.add_argument(
+        "text", type=str, required=True, help="input text is required"
+    )
+    new_parser.add_argument(
+        "key", type=key_type, required=True, help="unvalid argument: {error_msg}"
+    )
+    return new_parser
+
+def gamma_parser(key_type: callable, key_point: callable):
+    new_parser = reqparse.RequestParser()
+    new_parser.add_argument(
+        "text", type=str, required=True, help="input text is required"
+    )
+    new_parser.add_argument(
+        "point", type=key_point, required=True, help="Location of the origint required"
+    )
+    new_parser.add_argument(
+        "key", type=key_type, required=True, help="unvalid argument: {error_msg}"
     )
     return new_parser

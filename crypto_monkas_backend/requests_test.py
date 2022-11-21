@@ -300,10 +300,10 @@ if __name__ == "__main__":
     #vig_test()
     #perm_test()
 
-    #post(
-	#	ROOT + "hill/enc/Cat.png/12 13 11 25 72 23 43 3 11",
-	#	files={"file": open("test_files/Cat.png", "rb")},
-	#).json()
+    post(
+		ROOT + "hill/enc",
+		args={"file": '/9j/4AAQSkZJRgABAQEBLAEsAAD/', 'key': '12 13 11 25 72 23 43 3 11'},
+	).json()
     #post(
 	#	ROOT + "hill/dec/encCat.png/12 13 11 25 72 23 43 3 11",
 	#	files={"file": open("test_files/hillencCat.png", "rb")},
@@ -313,20 +313,49 @@ if __name__ == "__main__":
     # Format: "[mode], [iv], [key]" where
     # [iv] (inicial vector) is made of 8 bytes (8 hex values)
     # [key] is made of 16 or 24 bytes (16 or 24 numbers on the range of 0-255)
-    get(ROOT + "perm/enc", json={"plaintext": "abcdef", "key":"5 3 4 2 1"}).json()
-    post(
-        ROOT + "aes/enc/Cat.png/ECB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/Cat.png", "rb")},
-    ).json()
-    post(
-        ROOT + "aes/enc/Cat.png/CBC, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/Cat.png", "rb")},
-    ).json()
-    post(
-        ROOT + "aes/enc/Cat.png/OFB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/Cat.png", "rb")},
-    ).json()
-    post(
-        ROOT + "aes/enc/Cat.png/CFB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
-        files={"file": open("test_files/Cat.png", "rb")},
-    ).json()
+    #post(
+    #    ROOT + "aes/enc/Cat.png/ECB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+    #    files={"file": open("test_files/Cat.png", "rb")},
+    #).json()
+    #post(
+    #    ROOT + "aes/enc/Cat.png/CBC, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+    #    files={"file": open("test_files/Cat.png", "rb")},
+    #).json()
+    #post(
+    #    ROOT + "aes/enc/Cat.png/OFB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+    #    files={"file": open("test_files/Cat.png", "rb")},
+    #).json()
+    #post(
+    #    ROOT + "aes/enc/Cat.png/CFB, f0 00 00 af 61 f8 2f f9 f0 00 00 af 61 f8 2f f9, 212 214 106 50 70 30 42 90 11 12 70 45 46 80 52 40 12 15 46 78 222 100 255 24",
+    #    files={"file": open("test_files/Cat.png", "rb")},
+    #).json()
+    # print(get(ROOT + "rabin/enc", json={"plaintext": ex2}).json())
+    # print(
+    #     post(
+    #         ROOT + "rabin/dec", 
+    #         files={
+    #             "ciphertext": open("test_files/rabin_ciphertext.txt", "rb"),
+    #             "key": open("test_files/rabin_key.txt", "rb")
+    #         }
+    #     ).json()
+    # )
+    # print(get(ROOT + "rsa/enc", json={"plaintext": ex1}).json())
+    # print(
+    #     post(
+    #         ROOT + "rsa/dec", 
+    #         files={
+    #             "ciphertext": open("test_files/rsa_ciphertext.txt", "rb"),
+    #             "key": open("test_files/rsa_key.txt", "rb")
+    #         }
+    #     ).json()
+    # )
+    print(get(ROOT + "gamal/enc", json={"plaintext": ex1}).json())
+    print(
+        post(
+            ROOT + "gamal/dec", 
+            files={
+                "ciphertext": open("test_files/gamal_ciphertext.txt", "rb"),
+                "key": open("test_files/gamal_key.txt", "rb")
+            }
+        ).json()
+    )

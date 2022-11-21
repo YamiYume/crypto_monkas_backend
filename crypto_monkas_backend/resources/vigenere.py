@@ -70,7 +70,7 @@ class VigDec(Resource):
 
 
 class VigAtk(Resource):
-    def get(self):
+    def post(self):
         args = vig_atk_parser.parse_args()
         ciphertext = args["ciphertext"]
         head = args["head"]

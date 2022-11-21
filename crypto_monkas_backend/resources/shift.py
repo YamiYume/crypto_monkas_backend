@@ -78,5 +78,5 @@ class ShiftAtk(Resource):
         plaintexts_attempts = []
         for key in range(26):
             plaintexts_attempts.append((ShiftDec.decryption(ciphertext, key), key))
-        #plaintexts_attempts.sort(key=lambda t: utils.diff_rank(t[0]))
+        plaintexts_attempts.sort(key=lambda t: utils.diff_rank(t[0]))
         return plaintexts_attempts

@@ -4,6 +4,7 @@ from sympy.matrices import Matrix
 from sympy.matrices.dense import matrix2numpy
 from PIL import Image
 from sys import path
+from io import BytesIO
 import base64
 
 path.append("../common")
@@ -39,13 +40,13 @@ def valid_format(name: str) -> bool:
     return name[-1] in ["png"]
 
 
-hill_enc_parser = utils.file_parser()
+hill_enc_parser = utils.file_parser(hill_key)
 
-hill_dec_parser = utils.file_parser()
+hill_dec_parser = utils.file_parser(hill_key)
 
 
 class HillEnc(Resource):
-    def post(self, filename: str, key: str):
+    """def post(self, filename: str, key: str):
         try:
             key = hill_key(key)
         except ValueError as error:
@@ -57,7 +58,7 @@ class HillEnc(Resource):
         image_file.save(utils.FILEPATH + filename)
         self.encryption(filename, key)
         with open(utils.FILEPATH + "encimg" + filename, "rb") as ciphertext:
-            ciphertext = base64.b64encode(ciphertext.read()).decode()
+            ciphertext = base64.b64encode(ciphertext.read())
         return {"ciphertext": ciphertext}
 
     @staticmethod
@@ -77,10 +78,40 @@ class HillEnc(Resource):
                     ) % 256
         print("enc output", image)
         image = Image.fromarray(image)
-        image.save(utils.FILEPATH + "encimg" + filename)
-
+        image.save(utils.FILEPATH + "encimg" + filename)"""
+    
+    def post(self):
+        args = hill_enc_parser.parse_args()
+        key = args['key']
+        image_file = BytesIO(base64.b64decode(args["file"]))
+        #print(args["file"])
+        image = Image.open(image_file)
+        self.encryption(image, key)
+        with open(utils.FILEPATH + "encimg.png", "rb") as ciphertext:
+            output = base64.b64encode(ciphertext.read()).decode()
+        return {"output": output}
+    
+    @staticmethod
+    def encryption(image: Image, key: np.matrix) -> str:
+        #image = Image.open(utils.FILEPATH + filename)
+        width, height = image.size
+        kheight, kwidth = key.shape
+        dimensions = (width // kwidth * kwidth, height // kheight * kheight)
+        image = image.resize(dimensions)
+        image = np.array(image)
+        #print("enc input", image)
+        for channel in range(3):
+            for i in range(0, image.shape[0], kheight):
+                for j in range(0, image.shape[1], kwidth):
+                    image[i: i + kheight, j: j + kwidth, channel] = np.matmul(
+                            image[i: i + kheight, j: j + kwidth, channel], key
+                    ) % 256
+        #print("enc output", image)
+        image = Image.fromarray(image)
+        image.save(utils.FILEPATH + "encimg.png")
 
 class HillDec(Resource):
+    """
     def post(self, filename: str, key: str):
         try:
             key = hill_key(key)
@@ -116,3 +147,34 @@ class HillDec(Resource):
         image = Image.fromarray(image)
         print("dec output", image)
         image.save(utils.FILEPATH + "decimg" + filename)
+    """
+    def post(self):
+        args = hill_enc_parser.parse_args()
+        key = args['key']
+        image_file = BytesIO(base64.b64decode(args["file"]))
+        #image_file.save(utils.FILEPATH)
+        image = Image.open(image_file)
+        self.decryption(image, key)
+        with open(utils.FILEPATH + "decimg.png", "rb") as plaintext:
+            output = base64.b64encode(plaintext.read()).decode()
+        return {"output": output}
+
+    @staticmethod
+    def decryption(image: Image, key: int) -> str:
+        invkey = Matrix(key).inv_mod(256)
+        invkey = matrix2numpy(invkey)
+        width, height = image.size
+        kheight, kwidth = key.shape
+        dimensions = (width // kwidth * kwidth, height // kheight * kheight)
+        image = image.resize(dimensions)
+        image = np.array(image)
+        print("dec input", image)
+        for channel in range(3):
+            for i in range(0, image.shape[0], kheight):
+                for j in range(0, image.shape[1], kwidth):
+                    image[i: i + kheight, j: j + kwidth, channel] = np.matmul(
+                        image[i: i + kheight, j: j + kwidth, channel], invkey
+                    ) % 256
+        image = Image.fromarray(image)
+        print("dec output", image)
+        image.save(utils.FILEPATH + "decimg.png")

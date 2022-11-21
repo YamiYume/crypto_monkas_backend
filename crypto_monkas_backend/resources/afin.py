@@ -44,7 +44,7 @@ afin_atk_parser.add_argument(
 
 
 class AfinEnc(Resource):
-    def get(self):
+    def post(self):
         args = afin_enc_parser.parse_args()
         plaintext = args["plaintext"]
         key = args["key"]

@@ -80,7 +80,7 @@ class PermDec(Resource):
 
 
 class PermAtk(Resource):
-    def get(self):
+    def post(self):
         args = perm_atk_parser.parse_args()
         ciphertext = args["ciphertext"]
         head = args["head"]

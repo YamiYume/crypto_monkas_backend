@@ -9,7 +9,13 @@ from resources.vigenere import VigEnc, VigDec, VigAtk
 from resources.permutation import PermEnc, PermDec
 from resources.hill import HillEnc, HillDec
 from resources.TDES import TDESEnc, TDESDec
+from resources.SDES import SDESEnc, SDESDec
+from resources.gamma import gammaEnc, gammaDec
 from resources.aes import AESEnc, AESDec
+from resources.rabin import RabinEnc, RabinDec
+from resources.rsa import RSAEnc, RSADec
+from resources.elgamal import GamalEnc, GamalDec
+from resources.menezes import MenezesEnc, MenezesDec
 from common import utils
 
 if os.path.exists(utils.FILEPATH):
@@ -41,12 +47,25 @@ api.add_resource(VigDec, "/vig/dec")
 api.add_resource(VigAtk, "/vig/atk")
 api.add_resource(PermEnc, "/perm/enc")
 api.add_resource(PermDec, "/perm/dec")
-api.add_resource(HillEnc, "/hill/enc/<filename>/<key>")
-api.add_resource(HillDec, "/hill/dec/<filename>/<key>")
-api.add_resource(TDESEnc, "/tdes/enc/<filename>/<key>")
-api.add_resource(TDESDec, "/tdes/dec/<filename>/<key>")
-api.add_resource(AESEnc, "/aes/enc/<filename>/<key>")
-api.add_resource(AESDec, "/aes/dec/<filename>/<key>")
+api.add_resource(HillEnc, "/hill/enc")
+api.add_resource(HillDec, "/hill/dec")
+api.add_resource(TDESEnc, "/tdes/enc")
+api.add_resource(TDESDec, "/tdes/dec")
+api.add_resource(SDESEnc, "/sdes/enc")
+api.add_resource(SDESDec, "/sdes/dec")
+api.add_resource(gammaEnc, "/gamma/enc")
+api.add_resource(gammaDec, "/gamma/dec")
+api.add_resource(AESEnc, "/aes/enc")
+api.add_resource(AESDec, "/aes/dec")
+api.add_resource(RabinEnc, "/rabin/enc")
+api.add_resource(RabinDec, "/rabin/dec")
+api.add_resource(RSAEnc, "/rsa/enc")
+api.add_resource(RSADec, "/rsa/dec")
+api.add_resource(GamalEnc, "/gamal/enc")
+api.add_resource(GamalDec, "/gamal/dec")
+api.add_resource(MenezesEnc, "/menezes/enc")
+api.add_resource(MenezesDec, "/menezes/dec")
 
 if __name__ == "__main__":
+    
     app.run(debug=True)
